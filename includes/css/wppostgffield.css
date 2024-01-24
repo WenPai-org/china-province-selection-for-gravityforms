@@ -1,0 +1,143 @@
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
+.van-field input {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  color: #323233;
+  width: 100%;
+  user-select: auto;
+  cursor: pointer;
+}
+
+.van-field input::-webkit-input-placeholder {
+  color: #707070
+}
+
+.van-field input:focus-visible {
+  outline: 0;
+}
+
+.van-popup {
+  display: none;
+}
+
+.van-popup > div {
+  z-index: 2010;
+  position: fixed;
+
+  background: #fff;
+  padding: 0 16px;
+  border-radius: 20px 20px;
+}
+
+.van-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2009;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+.van-popup header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #323233;
+}
+
+@media (max-width: 768px) {
+  .van-popup > div {
+      z-index: 2010;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #fff;
+      padding: 0 16px;
+      border-radius: 20px 20px 0 0;
+  }
+
+}
+
+@media (min-width: 768px) {
+  .van-overlay {
+      display: none !important;
+  }
+
+  .van-popup > div {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 450px;
+  }
+}
+
+.van-tabs__nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.van-tab {
+  flex-grow: 1;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.van-tab--active {
+  color: #007bff;
+  font-weight: bold;
+  position: relative;
+}
+
+.van-tab--active:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  width: 40px;
+  height: 3px;
+  background: #007bff;
+  border-radius: 3px;
+  margin: auto;
+}
+
+.area-list {
+  box-sizing: border-box;
+  height: 384px;
+  padding-top: 6px;
+  overflow-y: auto;
+  overflow-scrolling: revert;
+}
+
+.area-list::-webkit-scrollbar-button {
+  display: none;
+}
+
+.area-list::-webkit-scrollbar-thumb {
+  background-color: #c9c9c9;
+  border-radius: 10px;
+}
+
+.area-list::-webkit-scrollbar {
+  background-color: rgb(255, 255, 255);
+  width: 5px;
+
+}
+
+.area-container {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.area-container:hover {
+  background: #f2f3f5;
+}
