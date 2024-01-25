@@ -36,6 +36,15 @@ class WP_POST_FIELD extends GFAddOn {
 		parent::init();
 		add_action( 'gform_enqueue_scripts', array( $this, 'enqueue_front_end_scripts' ), 10, 2 );
 		add_action( 'gform_pre_validation', array( $this, 'pre_render' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'custom_gf_placeholder_enqueue_script' ));
+	}
+
+	public function custom_gf_placeholder_enqueue_script() {
+		// 只在 Gravity Forms 编辑页面加载脚本
+		$screen = get_current_screen();
+		if ($screen->id == 'toplevel_page_gf_edit_forms') {
+			wp_enqueue_script('custom-wp-post-form-edit-script', plugins_url('/includes/js/wpp_form_edit.js', __FILE__), array('jquery'), time() . '');
+		}
 	}
 
 	/**

@@ -69,6 +69,7 @@ class GF_Field_WP_POST_IDCARD extends GF_Field {
 		return array(
 			'label_setting',
 			'rules_setting',
+			'placeholder_setting',
 		);
 	}
 
@@ -87,8 +88,9 @@ class GF_Field_WP_POST_IDCARD extends GF_Field {
 	public function get_field_input( $form, $value = '', $entry = null ) {
 		if (is_array($value)) $value = rgpost('input_' . $this->id);
 		$is_form_editor  = $this->is_form_editor();
+		$placeholder_attribute = $this->get_field_placeholder_attribute();
 		if($is_form_editor) {
-			return '<input class="large" type="text" placeholder="填写身份证" disabled>';
+			return "<input class='large' type='text' {$placeholder_attribute} disabled>";
 		}
 		return '';
 	}
@@ -145,7 +147,7 @@ class GF_Field_WP_POST_IDCARD extends GF_Field {
 		$required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
 
 		if (!$is_form_editor) {
-			$placeholder_attribute = "placeholder='请输入身份证号码'";
+			$placeholder_attribute = $this->get_field_placeholder_attribute();
 			$input_content = "<div class='ginput_container ginput_container_text' id='cascader_wrap_input_{$form_id}'><input class='large' type='text' name='input_{$this->id}' id='input_{$this->id}' value='{$value}' {$required_attribute} {$invalid_attribute} {$placeholder_attribute}/></div>";
 		}
 

@@ -69,6 +69,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		return array(
 			'label_setting',
 			'rules_setting',
+			'placeholder_setting',
 		);
 	}
 
@@ -92,8 +93,9 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		$form_id         = absint( $form['id'] );
 		$id          = (int) $this->id;
 		$field_id    = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
+		$placeholder_attribute  = $this->get_field_placeholder_attribute();
 		if($is_form_editor) {
-			return '<input class="large" type="text" placeholder="展示格式：xx省 / xx市 / xx区 / xx街道" disabled>';
+			return "<input class='large' type='text' {$placeholder_attribute} disabled>";
 		}
 		// return $this->echo_div_and_class() . "<div class='ginput_container ginput_container_{$this->type}' id='cascader_wrap_input_{$form_id}'><input name='input_{$this->id}' id='input_{$this->id}' type='hidden' value='{$value}'/></div>";
 		return '';
@@ -101,8 +103,9 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 
 	public function echo_div_and_class()
 	{
+		$placeholder_attribute  = $this->get_field_placeholder_attribute();
 		return '<div id="areaField" class="van-field" role="button">
-		<input type="text" class="" readonly placeholder="请选择地区" id="selectedArea">
+		<input type="text" class="" readonly ' . $placeholder_attribute . ' id="selectedArea">
 		<input type="text" hidden id="selectedAreaVal">
 	</div>
 	<div class="van-overlay" role="button" tabindex="0"></div>
@@ -173,6 +176,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 
 
 		$field_content = sprintf( "%s<$label_tag class='%s' $for_attribute >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s", $admin_buttons, esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $validation_message );
+		
 
 		if (!$is_admin) {
 			$field_content .= $this->echo_div_and_class();
