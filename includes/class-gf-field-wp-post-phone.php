@@ -69,6 +69,7 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 		return array(
 			'label_setting',
 			'rules_setting',
+			'placeholder_setting',
 		);
 	}
 
@@ -87,8 +88,9 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 	public function get_field_input( $form, $value = '', $entry = null ) {
 		if (is_array($value)) $value = rgpost('input_' . $this->id);
 		$is_form_editor  = $this->is_form_editor();
+		$placeholder_attribute  = $this->get_field_placeholder_attribute();
 		if($is_form_editor) {
-			return '<input class="large" type="text" placeholder="填写+86手机号格式" disabled>';
+			return "<input class='large' type='text' {$placeholder_attribute} disabled>";
 		}
 		return '';
 	}
@@ -145,7 +147,8 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 		$required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
 
 		if (!$is_form_editor) {
-			$input_content = "<div class='ginput_container ginput_container_text' id='cascader_wrap_input_{$form_id}'><input class='large' type='text' name='input_{$this->id}' id='input_{$this->id}' value='{$value}' {$required_attribute} {$invalid_attribute}/></div>";
+			$placeholder_attribute  = $this->get_field_placeholder_attribute();
+			$input_content = "<div class='ginput_container ginput_container_text' id='cascader_wrap_input_{$form_id}'><input class='large' type='text' name='input_{$this->id}' id='input_{$this->id}' value='{$value}' {$required_attribute} {$placeholder_attribute} {$invalid_attribute}/></div>";
 		}
 
 		$field_content = sprintf( "%s<$label_tag class='%s' $for_attribute >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s%s", $admin_buttons, esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $input_content, $validation_message );
