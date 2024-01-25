@@ -103,6 +103,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 	{
 		return '<div id="areaField" class="van-field" role="button">
 		<input type="text" class="" readonly placeholder="请选择地区" id="selectedArea">
+		<input type="text" hidden id="selectedAreaVal">
 	</div>
 	<div class="van-overlay" role="button" tabindex="0"></div>
 	<div id="areaPopup" class="van-popup">

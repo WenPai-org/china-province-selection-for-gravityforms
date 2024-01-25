@@ -1,7 +1,9 @@
 *, ::after, ::before {
   box-sizing: border-box;
 }
-
+a, button,input,div {
+  -webkit-tap-highlight-color: transparent;
+}
 .van-field input {
   padding: 10px;
   border: 1px solid #dcdcdc;
@@ -58,6 +60,7 @@
       z-index: 2010;
       position: fixed;
       bottom: 0;
+      left: 0;
       width: 100%;
       background: #fff;
       padding: 0 16px;
@@ -74,6 +77,7 @@
   .van-popup > div {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       width: 450px;
+      position: absolute;
   }
 }
 
