@@ -85,20 +85,33 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 	 *
 	 * @return string
 	 */
+	/**
+	 * Get field input.
+	 *
+	 * @since 1.0
+	 *
+	 * @param array      $form  The Form Object currently being processed.
+	 * @param array      $value The field value. From default/dynamic population, $_POST, or a resumed incomplete submission.
+	 * @param null|array $entry Null or the Entry Object currently being edited.
+	 *
+	 * @return string
+	 */
 	public function get_field_input( $form, $value = '', $entry = null ) {
-
 		if (is_array($value)) $value = rgpost('input_' . $this->id);
 		$is_form_editor  = $this->is_form_editor();
 		$is_entry_detail = $this->is_entry_detail();
+		if (!$is_entry_detail && !$is_form_editor) return ;
 		$form_id         = absint( $form['id'] );
+		
+		$tabindex              = $this->get_tabindex();
 		$id          = (int) $this->id;
-		$field_id    = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
-		$placeholder_attribute  = $this->get_field_placeholder_attribute();
-		if($is_form_editor) {
-			return "<input class='large' type='text' {$placeholder_attribute} disabled>";
-		}
-		// return $this->echo_div_and_class() . "<div class='ginput_container ginput_container_{$this->type}' id='cascader_wrap_input_{$form_id}'><input name='input_{$this->id}' id='input_{$this->id}' type='hidden' value='{$value}'/></div>";
-		return '';
+		$placeholder_attribute = $this->get_field_placeholder_attribute();
+		$field_id = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
+		$required_attribute    = $this->isRequired ? 'aria-required="true"' : '';
+		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
+		$disabled_text         = $is_form_editor ? 'disabled="disabled"' : '';
+
+		return "<input name='input_{$id}' id='{$field_id}' type='text' value='{$value}' class='large' {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
 	}
 
 	public function echo_div_and_class()
@@ -106,7 +119,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		$placeholder_attribute  = $this->get_field_placeholder_attribute();
 		return '<div id="areaField" class="van-field" role="button">
 		<input type="text" class="" readonly ' . $placeholder_attribute . ' id="selectedArea">
-		<input type="text" hidden id="selectedAreaVal">
+		
 	</div>
 	<div class="van-overlay" role="button" tabindex="0"></div>
 	<div id="areaPopup" class="van-popup">

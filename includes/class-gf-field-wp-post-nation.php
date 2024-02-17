@@ -73,6 +73,38 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 	}
 
 	/**
+	 * Get field input.
+	 *
+	 * @since 1.0
+	 *
+	 * @param array      $form  The Form Object currently being processed.
+	 * @param array      $value The field value. From default/dynamic population, $_POST, or a resumed incomplete submission.
+	 * @param null|array $entry Null or the Entry Object currently being edited.
+	 *
+	 * @return string
+	 */
+	public function get_field_input($form, $value = '', $entry = null)
+	{
+		if (is_array($value)) $value = rgpost('input_' . $this->id);
+		$is_form_editor  = $this->is_form_editor();
+		$is_entry_detail = $this->is_entry_detail();
+		if ($is_form_editor || (!$is_entry_detail && !$is_form_editor)) return;
+		$form_id         = absint($form['id']);
+		$tabindex              = $this->get_tabindex();
+		$id          = (int) $this->id;
+		$placeholder_attribute = $this->get_field_placeholder_attribute();
+		$field_id = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
+		$required_attribute    = $this->isRequired ? 'aria-required="true"' : '';
+		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
+		$disabled_text         = $is_form_editor ? 'disabled="disabled"' : '';
+
+		return sprintf( "<div class='ginput_container ginput_container_select'><select name='input_%d' id='%s' class='%s' $tabindex %s %s>%s</select></div>", $id, $field_id,  $disabled_text, $required_attribute, $invalid_attribute,  $this->get_choices( $value ) );
+
+
+		return "<input name='input_{$id}' id='{$field_id}' type='text' value='{$value}' class='large' {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
+	}
+
+	/**
 	 * Returns the field markup; including field label, description, validation, and the form editor admin buttons.
 	 *
 	 * The {FIELD} placeholder will be replaced in GFFormDisplay::get_field_content with the markup returned by GF_Field::get_field_input().
@@ -131,12 +163,12 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 
 	public function get_choices() {
 		$arr = [
-			"汉族", "蒙古族", "回族", "藏族", "维吾尔族", "苗族", "彝族", "壮族", "布依族", 
-			"朝鲜族", "满族", "侗族", "瑶族", "白族", "土家族", "哈尼族", "哈萨克族", "傣族", 
-			"黎族", "傈僳族", "佤族", "畲族", "高山族", "拉祜族", "水族", "东乡族", "纳西族", 
-			"景颇族", "柯尔克孜族", "土族", "达斡尔族", "仫佬族", "羌族", "布朗族", "撒拉族", 
-			"毛难族", "仡佬族", "锡伯族", "阿昌族", "普米族", "塔吉克族", "怒族", "乌孜别克族", 
-			"俄罗斯族", "鄂温克族", "德昂族", "保安族", "裕固族", "京族", "塔塔尔族", "独龙族", 
+			"汉族", "蒙古族", "回族", "藏族", "维吾尔族", "苗族", "彝族", "壮族", "布依族",
+			"朝鲜族", "满族", "侗族", "瑶族", "白族", "土家族", "哈尼族", "哈萨克族", "傣族",
+			"黎族", "傈僳族", "佤族", "畲族", "高山族", "拉祜族", "水族", "东乡族", "纳西族",
+			"景颇族", "柯尔克孜族", "土族", "达斡尔族", "仫佬族", "羌族", "布朗族", "撒拉族",
+			"毛难族", "仡佬族", "锡伯族", "阿昌族", "普米族", "塔吉克族", "怒族", "乌孜别克族",
+			"俄罗斯族", "鄂温克族", "德昂族", "保安族", "裕固族", "京族", "塔塔尔族", "独龙族",
 			"鄂伦春族", "赫哲族", "门巴族", "珞巴族", "基诺族"
 		];
 		$echoArr = [];

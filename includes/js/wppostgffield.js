@@ -76,7 +76,7 @@ jQuery(document).ready(function($) {
         $('#town-container').empty(); // 清空镇列表
 
         $('#tab-district').text('区县');
-        $('#tab-town').text('镇');
+        $('#tab-town').text('街道');
 
         $('#province-container, #city-container, #town-container').hide();
         $.each(districts, function (code, district) {
@@ -96,10 +96,10 @@ jQuery(document).ready(function($) {
         var towns = areaData[provinceCode]['children'][cityCode]['children'][districtCode]['children'] || {};
         var townContainer = $('#town-container');
         townContainer.empty().show();
-        $('#tab-town').text('镇');
+        $('#tab-town').text('街道');
         $('#province-container, #city-container, #district-container').hide();
         $.each(towns, function (code, town) {
-            townContainer.append($('<div>').addClass('area-container').text(town.name).data('code', code).click(function () {
+            townContainer.append($('<div>').addClass('area-container').text(town.name).data('code', town.code).click(function () {
 // 更新镇标签页的文本
                 $('#tab-town').text(town.name);
 
@@ -110,10 +110,7 @@ jQuery(document).ready(function($) {
                 const areaVal = provinceName + ' / ' + cityName + ' / ' + districtName + ' / ' + town.name
                 // 给#selectedArea赋值详细地址
                 $('#selectedArea').val(areaVal);
-                set_wppfield_cascader(areaVal)
-
-                // 给#selectedAreaVal赋值地区编码
-                $('#selectedAreaVal').val(provinceCode + ',' + cityCode + ',' + districtCode + ',' + code);
+                set_wppfield_cascader(town.code)
 
                 $('#areaPopup').hide();
                 $('.van-overlay').fadeOut(); // 隐藏遮罩层
@@ -157,9 +154,9 @@ jQuery(document).ready(function($) {
         $('.van-overlay').fadeOut(); // 隐藏遮罩层
     });
 
-    var $form = $("form[data-formid]");
-    var formId = $form.attr("data-formid");
-    var defaultArrInput = $("#cascader_wrap_input_"+formId).children('input')
+    const $form = $("form[data-formid]");
+    const formId = $form.attr("data-formid") ?? $("input[name=gform_submit]").val();
+    const defaultArrInput = $("#cascader_wrap_input_" + formId).children('input');
     if(defaultArrInput[0] && defaultArrInput[0].value) {
         $('#selectedArea').val(defaultArrInput[0].value);
     }

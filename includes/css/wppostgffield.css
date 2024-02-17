@@ -6,7 +6,6 @@ a, button,input,div {
 }
 .van-field input {
   padding: 10px;
-  border: 1px solid #dcdcdc;
   color: #323233;
   width: 100%;
   user-select: auto;
@@ -28,10 +27,9 @@ a, button,input,div {
 .van-popup > div {
   z-index: 2010;
   position: fixed;
-
   background: #fff;
   padding: 0 16px;
-  border-radius: 20px 20px;
+  border-radius: 10px;
 }
 
 .van-overlay {
@@ -140,6 +138,7 @@ a, button,input,div {
 .area-container {
   padding: 10px 16px;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 .area-container:hover {
