@@ -157,7 +157,7 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 		return sprintf( "<$label_tag class='%s' >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s", esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $validation_message );
 	}
 
-	public function get_choices() {
+	public function get_choices($value='') {
 		$arr = [
 			"汉族", "蒙古族", "回族", "藏族", "维吾尔族", "苗族", "彝族", "壮族", "布依族",
 			"朝鲜族", "满族", "侗族", "瑶族", "白族", "土家族", "哈尼族", "哈萨克族", "傣族",
@@ -169,6 +169,10 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 		];
 		$echoArr = [];
 		foreach ($arr as $item) {
+			if (!empty($value) && $item === $value) {
+				$echoArr[] = "<option selected value='{$item}'>{$item}</option>";
+				continue;
+			}
 			$echoArr[] = "<option value='{$item}'>{$item}</option>";
 		}
 		return implode('', $echoArr);
