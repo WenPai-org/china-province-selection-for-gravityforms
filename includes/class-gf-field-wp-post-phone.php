@@ -89,7 +89,6 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 		if (is_array($value)) $value = rgpost('input_' . $this->id);
 		$is_form_editor  = $this->is_form_editor();
 		$is_entry_detail = $this->is_entry_detail();
-		if (!$is_entry_detail && !$is_form_editor) return ;
 		
 		$form_id         = absint( $form['id'] );
 		$tabindex              = $this->get_tabindex();
@@ -149,17 +148,15 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 			$label_tag = 'label';
 		}
 
-		$input_content = '';
+		// $invalid_attribute      = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
+		// $required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
 
-		$invalid_attribute      = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
-		$required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
+		// if (!$is_form_editor) {
+		// 	$placeholder_attribute  = $this->get_field_placeholder_attribute();
+		// 	// $input_content = "<div class='ginput_container ginput_container_text'><input class='large' type='text' name='input_{$this->id}' id='input_{$this->id}' value='{$value}' {$required_attribute} {$placeholder_attribute} {$invalid_attribute}/></div>";
+		// }
 
-		if (!$is_form_editor) {
-			$placeholder_attribute  = $this->get_field_placeholder_attribute();
-			$input_content = "<div class='ginput_container ginput_container_text'><input class='large' type='text' name='input_{$this->id}' id='input_{$this->id}' value='{$value}' {$required_attribute} {$placeholder_attribute} {$invalid_attribute}/></div>";
-		}
-
-		$field_content = sprintf( "%s<$label_tag class='%s' $for_attribute >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s%s", $admin_buttons, esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $input_content, $validation_message );
+		$field_content = sprintf( "%s<$label_tag class='%s' $for_attribute >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s", $admin_buttons, esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $validation_message );
 		
 		return $field_content;
 	}
