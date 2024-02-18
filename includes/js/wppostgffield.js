@@ -198,6 +198,9 @@ jQuery(document).ready(function($) {
                 $('#selectedArea').val(result);
             }
         }, 300)
+        const timeout4Int = setTimeout(() => {
+            clearInterval(timer4Int);
+        }, 30000);
     }
 
     function set_wppfield_cascader(val)
