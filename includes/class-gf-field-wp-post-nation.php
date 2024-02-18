@@ -88,20 +88,19 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 		if (is_array($value)) $value = rgpost('input_' . $this->id);
 		$is_form_editor  = $this->is_form_editor();
 		$is_entry_detail = $this->is_entry_detail();
-		if ($is_form_editor || (!$is_entry_detail && !$is_form_editor)) return;
+		// if ($is_form_editor || (!$is_entry_detail && !$is_form_editor)) return;
 		$form_id         = absint($form['id']);
 		$tabindex              = $this->get_tabindex();
 		$id          = (int) $this->id;
-		$placeholder_attribute = $this->get_field_placeholder_attribute();
 		$field_id = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
 		$required_attribute    = $this->isRequired ? 'aria-required="true"' : '';
 		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
 		$disabled_text         = $is_form_editor ? 'disabled="disabled"' : '';
+		$size                   = $this->size;
+		$class_suffix           = $is_entry_detail ? '_admin' : '';
+		$class                  = $size . $class_suffix;
 
-		return sprintf( "<div class='ginput_container ginput_container_select'><select name='input_%d' id='%s' class='%s' $tabindex %s %s>%s</select></div>", $id, $field_id,  $disabled_text, $required_attribute, $invalid_attribute,  $this->get_choices( $value ) );
-
-
-		return "<input name='input_{$id}' id='{$field_id}' type='text' value='{$value}' class='large' {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
+		return sprintf( "<div class='ginput_container ginput_container_select'><select name='input_%d' id='%s' class='%s' $tabindex %s %s %s>%s</select></div>", $id, $field_id, $class, $disabled_text, $required_attribute, $invalid_attribute,  $this->get_choices( $value ) );
 	}
 
 	/**
@@ -127,16 +126,13 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 		$is_admin        = $is_form_editor || $is_entry_detail;
 
 		$id                     = $this->id;
-		$required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
-		$field_id = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
+		// $required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
+		// $field_id = $is_entry_detail || $is_form_editor || $form_id == 0 ? "input_$id" : 'input_' . $form_id . "_$id";
 
-		$invalid_attribute      = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
-		$required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
-		$size                   = $this->size;
-		$class_suffix           = $is_entry_detail ? '_admin' : '';
-		$class                  = $size . $class_suffix;
-		$css_class              = trim( esc_attr( $class ) . ' gfield_select' );
-		$disabled_text          = $is_form_editor ? 'disabled="disabled"' : '';
+		// $invalid_attribute      = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
+		// $required_attribute     = $this->isRequired ? 'aria-required="true"' : '';
+		// $css_class              = trim( esc_attr( $class ) . ' gfield_select' );
+		// $disabled_text          = $is_form_editor ? 'disabled="disabled"' : '';
 		$legend_wrapper       = '';
 		$legend_wrapper_close = '';
 		$field_label = $this->get_field_label( $force_frontend_label, $value );
@@ -156,9 +152,9 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 
 		$required_div = $is_admin || $this->isRequired ? sprintf( "<span class='gfield_required'>%s</span>", $this->isRequired ? '*' : '' ) : '';
 
-		$input_content = sprintf( "<div class='ginput_container ginput_container_select'><select name='input_%d' id='%s' class='%s' %s %s %s>%s</select></div>", $id, $field_id, $css_class, $disabled_text, $required_attribute, $invalid_attribute, $this->get_choices() );
+		// $input_content = sprintf( "<div class='ginput_container ginput_container_select'><select name='input_%d' id='%s' class='%s' %s %s %s>%s</select></div>", $id, $field_id, $css_class, $disabled_text, $required_attribute, $invalid_attribute, $this->get_choices() );
 
-		return sprintf( "<$label_tag class='%s' >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s%s", esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $input_content, $validation_message );
+		return sprintf( "<$label_tag class='%s' >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s", esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $validation_message );
 	}
 
 	public function get_choices() {

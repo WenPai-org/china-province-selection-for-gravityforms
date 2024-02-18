@@ -74,18 +74,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 	}
 
 
-	/**
-	 * Get field input.
-	 *
-	 * @since 1.0
-	 *
-	 * @param array      $form  The Form Object currently being processed.
-	 * @param array      $value The field value. From default/dynamic population, $_POST, or a resumed incomplete submission.
-	 * @param null|array $entry Null or the Entry Object currently being edited.
-	 *
-	 * @return string
-	 */
-	/**
+		/**
 	 * Get field input.
 	 *
 	 * @since 1.0
@@ -100,9 +89,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		if (is_array($value)) $value = rgpost('input_' . $this->id);
 		$is_form_editor  = $this->is_form_editor();
 		$is_entry_detail = $this->is_entry_detail();
-		if (!$is_entry_detail && !$is_form_editor) return ;
 		$form_id         = absint( $form['id'] );
-		
 		$tabindex              = $this->get_tabindex();
 		$id          = (int) $this->id;
 		$placeholder_attribute = $this->get_field_placeholder_attribute();
@@ -110,8 +97,9 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		$required_attribute    = $this->isRequired ? 'aria-required="true"' : '';
 		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
 		$disabled_text         = $is_form_editor ? 'disabled="disabled"' : '';
-
-		return "<input name='input_{$id}' id='{$field_id}' type='text' value='{$value}' class='large' {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
+		
+		$status_hidden = (!$is_form_editor && !$is_entry_detail) ? "type='hidden'" : "type='text'";
+		return "<input name='input_{$id}' id='input_{$this->id}' value='{$value}' class='large' {$status_hidden} {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
 	}
 
 	public function echo_div_and_class()
@@ -154,7 +142,6 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 	 */
 	public function get_field_content( $value, $force_frontend_label, $form ) {
 
-		// var_dump('?');die;
 		// Get the default HTML markup.
 		$form_id = (int) rgar( $form, 'id' );
 
@@ -188,13 +175,13 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		}
 
 
-		$field_content = sprintf( "%s<$label_tag class='%s' $for_attribute >$legend_wrapper%s%s$legend_wrapper_close</$label_tag>{FIELD}%s", $admin_buttons, esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $validation_message );
+		$field_content = sprintf( "%s<$label_tag class='%s' $for_attribute >$legend_wrapper%s%s$legend_wrapper_close</$label_tag><div class='ginput_container ginput_container_{$this->type}' id='cascader_wrap_input_{$form_id}'>{FIELD}</div>%s", $admin_buttons, esc_attr( $this->get_field_label_class() ), esc_html( $field_label ), $required_div, $validation_message );
 		
 
-		if (!$is_admin) {
+		if (!$is_form_editor) {
 			$field_content .= $this->echo_div_and_class();
 		}
-		$field_content .= "<div class='ginput_container ginput_container_{$this->type}' id='cascader_wrap_input_{$form_id}'><input name='input_{$this->id}' id='input_{$this->id}' type='hidden' value='{$value}'/></div>";
+		// $field_content .= "<div class='ginput_container ginput_container_{$this->type}' id='cascader_wrap_input_{$form_id}'>{FIELD}</div>";
 		
 		return $field_content;
 	}

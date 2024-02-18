@@ -1,4 +1,37 @@
+// format path by town.code
+function findPath(dataArray, targetCode) {
+    let path = '';
+  
+    function traverse(currentNode, currentPath) {
+      if (currentNode.code === targetCode) {
+        path = currentPath + currentNode.name;
+        return true;
+      }
+  
+      if (currentNode.children) {
+        for (const child of currentNode.children) {
+          if (traverse(child, currentPath + currentNode.name + ' / ')) {
+            return true;
+          }
+        }
+      }
+  
+      return false;
+    }
+  
+    for (const topLevelNode of dataArray) {
+      if (traverse(topLevelNode, '')) {
+        break;
+      }
+    }
+  
+    return path;
+}
 
+// check num
+function isNumericStr(str) {
+    return Number.isFinite(Number(str)) && !Number.isNaN(Number(str));
+}
 
 jQuery(document).ready(function($) {
    // 省市区数据，需要根据实际数据调整
@@ -158,7 +191,13 @@ jQuery(document).ready(function($) {
     const formId = $form.attr("data-formid") ?? $("input[name=gform_submit]").val();
     const defaultArrInput = $("#cascader_wrap_input_" + formId).children('input');
     if(defaultArrInput[0] && defaultArrInput[0].value) {
-        $('#selectedArea').val(defaultArrInput[0].value);
+        const timer4Int = setInterval(() => {
+            if (areaData && isNumericStr(defaultArrInput[0].value)) {
+                clearInterval(timer4Int)
+                const result = findPath(areaData, defaultArrInput[0].value)
+                $('#selectedArea').val(result);
+            }
+        }, 300)
     }
 
     function set_wppfield_cascader(val)
