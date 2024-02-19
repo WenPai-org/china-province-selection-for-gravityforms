@@ -203,6 +203,22 @@ jQuery(document).ready(function($) {
         }, 30000);
     }
 
+    let defaultSelectedAreaInput = $("#selectedArea_" + formId);
+    if(defaultSelectedAreaInput && defaultSelectedAreaInput[0].value) {
+        const timer4Cascader = setInterval(() => {
+            if (areaData && isNumericStr(defaultSelectedAreaInput[0].value)) {
+                clearInterval(timer4Cascader);
+                const result4Cascader = findPath(areaData, defaultSelectedAreaInput[0].value);
+                if(result4Cascader) {
+                    $("#selectedArea_" + formId).parent("p")[0].innerHTML = result4Cascader;
+                }
+            }
+        }, 300)
+        const timeout4Cascader = setTimeout(() => {
+            clearInterval(timer4Cascader);
+        }, 30000);
+    }
+
     function set_wppfield_cascader(val)
     {
         $("#cascader_wrap_input_"+formId).children('input').val(val)
