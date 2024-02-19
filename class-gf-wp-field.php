@@ -37,6 +37,7 @@ class WP_POST_FIELD extends GFAddOn {
 		add_action( 'gform_enqueue_scripts', array( $this, 'enqueue_front_end_scripts' ), 10, 2 );
 		add_action( 'gform_pre_validation', array( $this, 'pre_render' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'custom_gf_placeholder_enqueue_script' ));
+		add_filter( 'gform_entry_field_value', array($this, 'custom_gform_entry_field_value'), 10, 4);
 	}
 
 	public function custom_gf_placeholder_enqueue_script() {
@@ -215,6 +216,14 @@ class WP_POST_FIELD extends GFAddOn {
 		require_once 'includes/class-gf-field-wp-post-phone.php';
 		require_once 'includes/class-gf-field-wp-post-idcard.php';
 		require_once 'includes/class-gf-field-wp-post-nation.php';
+	}
+
+	public function custom_gform_entry_field_value($value, $field, $lead, $form)
+	{
+		if ($field->type == 'wppfield_cascader') {
+			$value .= "<input type='hidden' value='$value' readonly id='selectedArea_" . $form['id'] . "'>";
+		}
+		return $value;
 	}
 
 	/**
