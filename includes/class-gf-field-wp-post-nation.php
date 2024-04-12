@@ -69,6 +69,7 @@ class GF_Field_WP_POST_NATION extends GF_Field {
 		return array(
 			'label_setting',
 			'rules_setting',
+			'conditional_logic_field_setting',
 		);
 	}
 

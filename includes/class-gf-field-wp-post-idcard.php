@@ -70,6 +70,7 @@ class GF_Field_WP_POST_IDCARD extends GF_Field {
 			'label_setting',
 			'rules_setting',
 			'placeholder_setting',
+			'conditional_logic_field_setting',
 		);
 	}
 

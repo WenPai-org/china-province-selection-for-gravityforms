@@ -204,7 +204,7 @@ jQuery(document).ready(function($) {
     }
 
     let defaultSelectedAreaInput = $("#selectedArea_" + formId);
-    if(defaultSelectedAreaInput && defaultSelectedAreaInput[0].value) {
+    if(defaultSelectedAreaInput && typeof defaultSelectedAreaInput[0] != 'undefined' && defaultSelectedAreaInput[0].value) {
         const timer4Cascader = setInterval(() => {
             if (areaData && isNumericStr(defaultSelectedAreaInput[0].value)) {
                 clearInterval(timer4Cascader);
@@ -217,6 +217,26 @@ jQuery(document).ready(function($) {
         const timeout4Cascader = setTimeout(() => {
             clearInterval(timer4Cascader);
         }, 30000);
+    }
+
+    let selectAreaClassArr = $('.select_area_span');
+    if(selectAreaClassArr && selectAreaClassArr.length > 0) {
+        let timeArr = [], timeoutArr = []
+        selectAreaClassArr.each(function(index, item) {
+            const areaStr = item.innerHTML
+            timeArr[index] = setInterval(() => {
+                if (areaData && isNumericStr(areaStr)) {
+                    clearInterval(timeArr[index]);
+                    const result4Cascader = findPath(areaData, areaStr);
+                    if(result4Cascader) {
+                        item.innerHTML = result4Cascader
+                    }
+                }
+            }, 300)
+            timeoutArr[index] = setTimeout(() => {
+                clearInterval(timer4selectAreaClassArr);
+            }, 30000);
+        });
     }
 
     function set_wppfield_cascader(val)

@@ -70,6 +70,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 			'label_setting',
 			'rules_setting',
 			'placeholder_setting',
+			'conditional_logic_field_setting',
 		);
 	}
 
@@ -97,6 +98,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 		$required_attribute    = $this->isRequired ? 'aria-required="true"' : '';
 		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
 		$disabled_text         = $is_form_editor ? 'disabled="disabled"' : '';
+
 		
 		$status_hidden = (!$is_form_editor && !$is_entry_detail) ? "type='hidden'" : "type='text'";
 		return "<input name='input_{$id}' id='input_{$this->id}' value='{$value}' class='large' {$status_hidden} {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
@@ -182,7 +184,7 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 			$field_content .= $this->echo_div_and_class();
 		}
 		// $field_content .= "<div class='ginput_container ginput_container_{$this->type}' id='cascader_wrap_input_{$form_id}'>{FIELD}</div>";
-		
+
 		return $field_content;
 	}
 
@@ -193,6 +195,25 @@ class GF_Field_WP_POST_CASCADER extends GF_Field {
 	 */
 	public function post_convert_field() {
 		GF_Field::post_convert_field();
+	}
+
+	/**
+	 * entry合并标签
+	 * @param $value
+	 * @param $input_id
+	 * @param $entry
+	 * @param $form
+	 * @param $modifier
+	 * @param $raw_value
+	 * @param $url_encode
+	 * @param $esc_html
+	 * @param $format
+	 * @param $nl2br
+	 *
+	 * @return string
+	 */
+	public function get_value_merge_tag( $value, $input_id, $entry, $form, $modifier, $raw_value, $url_encode, $esc_html, $format, $nl2br ) {
+		return '<span class="select_area_span">' . $value . '</span>';
 	}
 }
 

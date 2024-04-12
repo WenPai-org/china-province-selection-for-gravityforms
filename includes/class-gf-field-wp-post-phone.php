@@ -70,6 +70,7 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 			'label_setting',
 			'rules_setting',
 			'placeholder_setting',
+			'conditional_logic_field_setting',
 		);
 	}
 
@@ -99,7 +100,7 @@ class GF_Field_WP_POST_PHONE extends GF_Field {
 		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
 		$disabled_text         = $is_form_editor ? 'disabled="disabled"' : '';
 
-		return "<input name='input_{$id}' id='{$field_id}' type='text' value='{$value}' class='large' {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} />";
+		return "<input name='input_{$id}' id='{$field_id}' type='text' class='form-control input_sjh' required pattern='^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$' value='{$value}' class='large' {$tabindex} {$placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} /><div id='' class='invalid-feedback' >请输入正确的手机号</div>";
 	}
 
 	/**
